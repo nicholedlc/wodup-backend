@@ -1,6 +1,6 @@
 {
   "development": {
-    "database": "wodup_development",
+    "database": "wodup",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
