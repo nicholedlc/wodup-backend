@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
     .catch(res.send);
 });
 
-// Exercise#show, URL: /api/exercises/:id, METHOD: GET
+// Exercises#show, URL: /api/exercises/:id, METHOD: GET
 router.get('/:id', function(req, res, next) {
   const {id} = req.params;
   Exercise
@@ -20,9 +20,21 @@ router.get('/:id', function(req, res, next) {
     .then(exercise => {
       res.json({exercise})
     })
-    .catch(error => {
-      res.json({error: {name: err.name, message: err.message}})
+    .catch(err => {
+      res.json({err: {name: err.name, message: err.message}})
     })
 })
 
+router.delete('/:id', function(req, res, next) {
+  const {id} = req.params;
+  Exercise
+    .findById(id)
+    .then(exercise => {
+      exercise.destroy()
+      .then(() => res.json({exercise}))
+    })
+    .catch(err => {
+      res.json({err: {name: err.name, message: err.message}})
+    })
+})
 module.exports = router;
