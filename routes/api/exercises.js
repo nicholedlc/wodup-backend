@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     .then(exercises => {
       res.json({exercises});
     })
-    .catch(res.send);
+      res.json({err: {name: err.name, message: err.message}})
 });
 
 // Exercises#show, URL: /api/exercises/:id, METHOD: GET
@@ -25,6 +25,18 @@ router.get('/:id', function(req, res, next) {
     })
 })
 
+// Exercise#create, URL: /api/exercises METHOD: POST
+router.post('/', function(req, res, next) {
+  const {name, description} = req.body;
+  Exercise
+    .create({name, description})
+    .then(exercise => res.json({exercise}))
+    .catch(err => {
+      res.json({err: {name: err.name, message: err.message}})
+    })
+})
+
+// Exercises#destroy, URL: /api/exercises/:id, METHOD: DELETE
 router.delete('/:id', function(req, res, next) {
   const {id} = req.params;
   Exercise
