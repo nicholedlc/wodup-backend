@@ -5,12 +5,25 @@ const {Exercise} = require('../../models/index');
 // Exercises#index, URL: /api/exercises, METHOD: GET
 router.get('/', function(req, res, next) {
   Exercise
-    .findAll()
+    .findAll({order: [['name', 'ASC']]})
     .then(exercises => {
       res.json({exercises});
     })
+    .catch(err => {
       res.json({err: {name: err.name, message: err.message}})
+    })
 });
+
+// Exercise#create, URL: /api/exercises METHOD: POST
+router.post('/', function(req, res, next) {
+  const {name, description} = req.body;
+  Exercise
+  .create({name, description})
+  .then(exercise => res.json({exercise}))
+  .catch(err => {
+    res.json({err: {name: err.name, message: err.message}})
+  })
+})
 
 // Exercises#show, URL: /api/exercises/:id, METHOD: GET
 router.get('/:id', function(req, res, next) {
@@ -25,12 +38,18 @@ router.get('/:id', function(req, res, next) {
     })
 })
 
-// Exercise#create, URL: /api/exercises METHOD: POST
-router.post('/', function(req, res, next) {
+// Exercise#update, URL: /api/exercises/:id, METHOD: PUT
+router.put('/:id', function(req, res, next) {
+  const {id} = req.params;
   const {name, description} = req.body;
   Exercise
-    .create({name, description})
-    .then(exercise => res.json({exercise}))
+    .findById(id)
+    .then(exercise => {
+      exercise.update({name, description})
+    })
+    .then(exercise => {
+      res.json({exercise})
+    })
     .catch(err => {
       res.json({err: {name: err.name, message: err.message}})
     })
