@@ -5,8 +5,9 @@ module.exports = function(sequelize, DataTypes) {
     description: DataTypes.TEXT
   }, {
     classMethods: {
-      associate: function(models) {
-        // associations can be defined here
+      associate: function({Log, User}) {
+        Exercise.hasMany(Log);
+        Exercise.belongsToMany(User, {through: 'Log'});
       }
     }
   });
