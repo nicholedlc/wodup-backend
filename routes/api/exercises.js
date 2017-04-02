@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {Exercise} = require('../../models/index');
+const {Exercise, Log} = require('../../models/index');
 
 // Exercises#index, URL: /api/exercises, METHOD: GET
 router.get('/', function(req, res, next) {
@@ -28,11 +28,17 @@ router.post('/', function(req, res, next) {
 // Exercises#show, URL: /api/exercises/:id, METHOD: GET
 router.get('/:id', function(req, res, next) {
   const {id} = req.params;
-  Exercise
-    .findById(id)
-    .then(exercise => {
-      res.json({exercise})
-    })
+  // Exercise
+  //   .findById(id)
+  //   .then(exercise => {
+  //     res.json({exercise})
+  //   })
+  Promise.all([
+    Exercise.findById(id, {raw:true}),
+    Log.findAll({where: {ExerciseId: id}, raw: true})
+  ])
+    .then(([exercise, log]) =>
+      res.json({exercise: Object.assign(exercise, {log})}))
     .catch(err => {
       res.json({err: {name: err.name, message: err.message}})
     })
