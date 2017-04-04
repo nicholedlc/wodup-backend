@@ -6,7 +6,7 @@ const {ExtractJwt, Strategy} = passportJWT;
 
 const {User} = require('../../models/index');
 
-// User#show URL: /api/user, METHOD: GET
+// User#show, URL: /api/user, METHOD: GET
 router.get('/', passport.authenticate('jwt', {session: false}), function (req, res, next) {
   // req.user is put there by passport.js
   // passport will be able to identify a user by the jwt token in the header of their json requests (i.e. Authorization: JWT dajLKDASHUIWQ:OHAH:I)

@@ -36,4 +36,19 @@ router.post('/login', function(req, res, next) {
     .catch(console.info);
 });
 
+// User#create, URL: api/auth/signup, METHOD: POST
+router.post('/signup', function (req, res, next) {
+  const {firstName, lastName, email, password} = req.body;
+  User
+    .create({firstName, lastName, email, password})
+    .then(user => {
+      const payload = {id: user.id};
+      const token = jwt.sign(payload, jwtOptions.secretOrKey);
+      res.json({user, message: 'ok', token: token});
+    })
+    .catch(err => {
+      res.json({err: {name: err.name, message: err.message}})
+    })
+})
+
 module.exports = router;

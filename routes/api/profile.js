@@ -12,10 +12,25 @@ router.get('/', passport.authenticate('jwt', {session: false}), function (req, r
   // passport will be able to identify a user by the jwt token in the header of their json requests (i.e. Authorization: JWT dajLKDASHUIWQ:OHAH:I)
   // the user is determined by your code in auth/login, which is set by const payload = {id: user.id};
   const {user} = req; // in this case, req.user is user.id
-  debugger;
+  // debugger;
   User
     .findById(user)
     .then(user => user.getProfile())
+    .then(profile => res.json({profile}))
+    .catch(err => {
+      res.json({err: {name: err.name, message: err.message}})
+    })
+})
+
+// Profile#create URL: /api/profile/new, METHOD: POST
+router.post('/', passport.authenticate('jwt', {session: false}), function (req, res, next) {
+  // const {dob, height, weight, gender} = req.body;
+  const {user} = req;
+  const {dob, weight, height, gender} = req.body;
+  console.log(user);
+  User
+    .findById(user)
+    .then(user => user.createProfile({age: 25, weight, height, gender}))
     .then(profile => res.json({profile}))
     .catch(err => {
       res.json({err: {name: err.name, message: err.message}})
