@@ -19,10 +19,27 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeader(),
+  // The secretOrKey is the secret that our tokens will be signed with. Choose this wisely or use a private key.
+  secretOrKey: 'supersecret'
+}
+
+// jwt_payload is the data decrypted from the jwt token, which is part of the request (it's going to be in the header)
+// this strategy is used to find the user (see auth.js when we set payload = {id: user.id};
+const strategy = new Strategy (
+  jwtOptions, (jwt_payload, next) => {
+    console.log('payload received', jwt_payload);
+    const user = jwt_payload.id;
+    user ? next(null, user) : next(null, false); // or you could create a new account
+  }
+);
+
+passport.use(strategy);
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

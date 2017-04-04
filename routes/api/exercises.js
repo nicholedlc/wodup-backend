@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+
 const {Exercise, Log} = require('../../models/index');
 
 // Exercises#index, URL: /api/exercises, METHOD: GET
