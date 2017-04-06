@@ -11,12 +11,19 @@ router.get('/', passport.authenticate('jwt', {session: false}), function (req, r
   // req.user is put there by passport.js
   // passport will be able to identify a user by the jwt token in the header of their json requests (i.e. Authorization: JWT dajLKDASHUIWQ:OHAH:I)
   // the user is determined by your code in auth/login, which is set by const payload = {id: user.id};
-  const {user} = req; // in this case, req.user is user.id
-  // debugger;
+  const {user: userId} = req; // in this case, req.user is user.id
   User
-    .findById(user)
-    .then(user => user.getProfile())
-    .then(profile => res.json({profile}))
+    .findById(userId)
+    .then(user => Promise.all([user, user.getProfile({raw: true})]))
+    .then(arr => {
+      return res.json({
+        profile: Object.assign(
+          arr[1],
+          {firstName: arr[0].firstName,
+          lastName: arr[0].lastName}
+        )
+      }
+    )})
     .catch(err => {
       res.json({err: {name: err.name, message: err.message}})
     })
@@ -26,11 +33,11 @@ router.get('/', passport.authenticate('jwt', {session: false}), function (req, r
 router.post('/', passport.authenticate('jwt', {session: false}), function (req, res, next) {
   // const {dob, height, weight, gender} = req.body;
   const {user} = req;
-  const {dob, weight, height, gender} = req.body;
+  const {age, weight, height, gender} = req.body;
   console.log(user);
   User
     .findById(user)
-    .then(user => user.createProfile({age: 25, weight, height, gender}))
+    .then(user => user.createProfile({age: age, weight, height, gender}))
     .then(profile => res.json({profile}))
     .catch(err => {
       res.json({err: {name: err.name, message: err.message}})
