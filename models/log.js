@@ -7,7 +7,8 @@ module.exports = function(sequelize, DataTypes) {
     set: DataTypes.INTEGER,
     weight: DataTypes.FLOAT,
     note: DataTypes.TEXT,
-    date: DataTypes.DATE
+    date: DataTypes.DATE,
+    imageUrl: DataTypes.STRING
   }, {
     classMethods: {
       associate: function({User, Exercise}) {

@@ -36,7 +36,7 @@ router.get('/:id', function(req, res, next) {
   //   })
   Promise.all([
     Exercise.findById(id, {raw:true}),
-    Log.findAll({where: {ExerciseId: id}, raw: true})
+    Log.findAll({where: {ExerciseId: id}, raw: true, order: [['date', 'DESC']]})
   ])
     .then(([exercise, log]) =>
       res.json({exercise: Object.assign(exercise, {log})}))
@@ -75,4 +75,18 @@ router.delete('/:id', function(req, res, next) {
       res.json({err: {name: err.name, message: err.message}})
     })
 })
+
+// Log#create, URL: /api/exercises/:id/log, METHOD: POST
+router.post('/:id/log', function(req, res, next) {
+  const {id} = req.params;
+  const {rep, set, weight, note, date, imageUrl} = req.body;
+  Exercise
+    .findById(id)
+    .then(exercise => exercise.createLog({rep, set, weight, note, date, imageUrl}))
+    .then(log => res.json({log}))
+    .catch(err => {
+      res.json({err: {name: err.name, message: err.message}})
+    })
+})
+
 module.exports = router;

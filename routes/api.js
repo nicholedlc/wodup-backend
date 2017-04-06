@@ -8,6 +8,7 @@ const auth = require('./api/auth');
 const user = require('./api/user');
 const exercises = require('./api/exercises');
 const profile = require('./api/profile');
+const uploads = require('./api/uploads');
 
 router.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -25,5 +26,7 @@ router.use('/user', user);
 router.use('/profile', profile);
 
 router.use('/exercises', exercises);
+
+router.use('/uploads', uploads);
 
 module.exports = router;
