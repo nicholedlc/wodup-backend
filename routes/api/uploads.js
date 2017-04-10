@@ -9,7 +9,6 @@ const uploader = multer({
 })
 
 router.post('/', uploader.single('image'), function(req, res, next) {
-  // debugger;
   const imageUrl = `/uploads/${req.file.filename}`;
   res.json({imageUrl});
 })

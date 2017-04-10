@@ -18,9 +18,9 @@ module.exports = {
             Array.from({length: 20}).map(
               (x, i) => e.createLog({
                 UserId: user.id,
-                rep: Math.floor(Math.random()*20 + 1),
-                set: Math.floor(Math.random()*5 + 1),
-                weight: Math.floor(Math.random()*146 + 85),
+                rep: Math.floor((Math.random() * -3) + 5 + i),
+                set: Math.floor((Math.random() * -2) + 3 + i),
+                weight: Math.floor((Math.random() * -5) + 100 + i/2),
                 date: moment().subtract(20-i, 'days').toDate()
               })
             )

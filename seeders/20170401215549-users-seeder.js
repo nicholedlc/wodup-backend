@@ -1,9 +1,12 @@
 'use strict';
-const {User} = require('../models/index')
+const {User} = require('../models/index');
 
 module.exports = {
   up: function () {
-    return User.create({firstName: 'Cheesus', lastName: 'Crust', email: 'cheesus.crust@gmail.com', passwordDigest: 'yeah'})
+    return User.create(
+      {firstName: 'Nichole', lastName: 'De La Cruz', email: 'ndlc@gmail.com', password: 'yeah', passwordDigest: 'yeah'},
+      {firstName: 'Cheesus', lastName: 'Crust', email: 'cheesus.crust@gmail.com', password: 'yeah', passwordDigest: 'yeah'}
+    )
   },
 
   down: function (queryInterface, Sequelize) {

@@ -33,10 +33,6 @@ const DISTANCE = [
  ]
 
  const BODYWEIGHT = [
-   { name: `Air Squat`, description: `Move from the standing position with hips below the knees, and back to standing.` },
-   { name: `Back Extensions`, description: `Using a GHD, you move from an L-shaped position with the head directly below the pelvis to an extended horizontal position.` },
-   { name: `Box Jump`, description: `From standing on the floor jump and land with both feet on top of the box.  Typical heights 12,18,24,30.` },
-   { name: `Burpee`, description: `Beginning in a standing position, drop to the floor with the feet extending backward, contact the floor with your chest and the tuck legs into a squat and fully stand with a small jump at the end.`},
    { name: `Handstand Push-Up`, description: `Beginning in a handstand bend arms until the head touches the ground then push yourself back to the fully extended handstand position.` },
    { name: `Jump Rope`, description: `The most variation in CrossFit is referred to as the “Double Under” in which the jump ropes makes two revolutions per jump.` },
    { name: `Knees-to-Elbows`, description:  `Hanging from the pull-up bar raise the knees until they make contact with the elbows and then fully extend and repeat.` },

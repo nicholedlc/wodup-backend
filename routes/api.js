@@ -12,9 +12,8 @@ const uploads = require('./api/uploads');
 
 router.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  // The header Access-Control-Allow-Headers is used in a CORS pre-flight to tell the client which HTTP headers are allowed in the request
-  res.header("Access-Control-Allow-Headers", //this is the header
-            "Authorization, Origin, X-Requested-With, Content-Type, Accept"); //this is the value
+  res.header("Access-Control-Allow-Headers", 
+            "Authorization, Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTION');
   next();
 });

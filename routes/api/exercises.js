@@ -29,11 +29,6 @@ router.post('/', function(req, res, next) {
 // Exercises#show, URL: /api/exercises/:id, METHOD: GET
 router.get('/:id', function(req, res, next) {
   const {id} = req.params;
-  // Exercise
-  //   .findById(id)
-  //   .then(exercise => {
-  //     res.json({exercise})
-  //   })
   Promise.all([
     Exercise.findById(id, {raw:true}),
     Log.findAll({where: {ExerciseId: id}, raw: true, order: [['date', 'DESC']]})

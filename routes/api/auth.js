@@ -10,7 +10,6 @@ const {User} = require('../../models/index');
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  // The secretOrKey is the secret that our tokens will be signed with. Choose this wisely or use a private key.
   secretOrKey: 'supersecret'
 }
 

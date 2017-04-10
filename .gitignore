@@ -106,4 +106,6 @@ typings/
 
 *.swp
 
+public/uploads/*
+
 # End of https://www.gitignore.io/api/node,linux,macos
