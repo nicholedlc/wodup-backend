@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Log = sequelize.define('Log', {
     UserId: DataTypes.INTEGER,
     ExerciseId: DataTypes.INTEGER,
@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
     imageUrl: DataTypes.STRING
   }, {
     classMethods: {
-      associate: function({User, Exercise}) {
+      associate: function ({User, Exercise}) {
         Log.belongsTo(User);
         Log.belongsTo(Exercise);
       }

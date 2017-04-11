@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Profile = sequelize.define('Profile', {
     UserId: DataTypes.INTEGER,
     age: DataTypes.INTEGER,
@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     height: DataTypes.INTEGER
   }, {
     classMethods: {
-      associate: function({Profile, User}) {
+      associate: function ({Profile, User}) {
         Profile.belongsTo(User);
       }
     }

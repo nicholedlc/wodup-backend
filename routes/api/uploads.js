@@ -4,13 +4,13 @@ const multer = require('multer');
 const path = require('path');
 
 const uploader = multer({
-  dest: __dirname + '/../../public/uploads/',
-  limits: {fileSize: 5000000, files:1}
-})
+  dest: path.join(__dirname, '/../../public/uploads/'),
+  limits: {fileSize: 5000000, files: 1}
+});
 
-router.post('/', uploader.single('image'), function(req, res, next) {
+router.post('/', uploader.single('image'), function (req, res, next) {
   const imageUrl = `/uploads/${req.file.filename}`;
   res.json({imageUrl});
-})
+});
 
 module.exports = router;

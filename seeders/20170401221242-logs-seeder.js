@@ -1,5 +1,5 @@
 'use strict';
-const {Log, User, Exercise} = require('../models/index');
+const {User, Exercise} = require('../models/index');
 const moment = require('moment');
 
 module.exports = {
@@ -18,16 +18,15 @@ module.exports = {
             Array.from({length: 20}).map(
               (x, i) => e.createLog({
                 UserId: user.id,
-                rep: Math.floor((Math.random() * -3) + 5 + i),
-                set: Math.floor((Math.random() * -2) + 3 + i),
-                weight: Math.floor((Math.random() * -5) + 100 + i/2),
-                date: moment().subtract(20-i, 'days').toDate()
+                rep: Math.floor((Math.random() * 10) + 1),
+                set: Math.floor((Math.random() * 5) + 1),
+                weight: Math.floor((Math.random() * 40) + 40),
+                date: moment().subtract(20 - i, 'days').toDate()
               })
             )
           )
         ))
     );
-
   },
   down: function (queryInterface, Sequelize) {
     return queryInterface.bulkDelete('Logs', null, {});

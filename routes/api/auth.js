@@ -2,18 +2,17 @@ const express = require('express');
 const router = express.Router();
 
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
 const passportJWT = require('passport-jwt');
-const {ExtractJwt, Strategy} = passportJWT;
+const {ExtractJwt} = passportJWT;
 
 const {User} = require('../../models/index');
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeader(),
   secretOrKey: 'supersecret'
-}
+};
 
-router.post('/login', function(req, res, next) {
+router.post('/login', function (req, res, next) {
   const {email, password} = req.body;
   console.log(email, password);
   // if (username && password) {
@@ -22,9 +21,8 @@ router.post('/login', function(req, res, next) {
     .then(user => {
       // console.log(req.body);
       if (!user) {
-        res.status(401).json({message:"no such user found"});
-      }
-      else if (password === user.password) {
+        res.status(401).json({message: 'no such user found'});
+      } else if (password === user.password) {
         const payload = {id: user.id};
         const token = jwt.sign(payload, jwtOptions.secretOrKey);
         res.json({message: 'ok', token: token});
@@ -46,8 +44,8 @@ router.post('/signup', function (req, res, next) {
       res.json({user, message: 'ok', token: token});
     })
     .catch(err => {
-      res.json({err: {name: err.name, message: err.message}})
-    })
-})
+      res.json({err: {name: err.name, message: err.message}});
+    });
+});
 
 module.exports = router;

@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const passportJWT = require('passport-jwt');
-const {ExtractJwt, Strategy} = passportJWT;
 
-const {User, Profile} = require('../../models/index');
+const {User} = require('../../models/index');
 
 // Profile#show URL: /api/profile, METHOD: GET
 router.get('/', passport.authenticate('jwt', {session: false}), function (req, res, next) {
@@ -16,14 +14,14 @@ router.get('/', passport.authenticate('jwt', {session: false}), function (req, r
         profile: Object.assign(
           arr[1],
           {firstName: arr[0].firstName,
-          lastName: arr[0].lastName}
+            lastName: arr[0].lastName}
         )
-      }
-    )})
-    .catch(err => {
-      res.json({err: {name: err.name, message: err.message}})
+      });
     })
-})
+    .catch(err => {
+      res.json({err: {name: err.name, message: err.message}});
+    });
+});
 
 // Profile#create URL: /api/profile/new, METHOD: POST
 router.post('/', passport.authenticate('jwt', {session: false}), function (req, res, next) {
@@ -35,8 +33,8 @@ router.post('/', passport.authenticate('jwt', {session: false}), function (req, 
     .then(user => user.createProfile({age: age, weight, height, gender}))
     .then(profile => res.json({profile}))
     .catch(err => {
-      res.json({err: {name: err.name, message: err.message}})
-    })
-})
+      res.json({err: {name: err.name, message: err.message}});
+    });
+});
 
 module.exports = router;

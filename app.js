@@ -1,17 +1,14 @@
 const express = require('express');
 const path = require('path');
-const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const {ExtractJwt, Strategy} = passportJWT;
 
-const api = require('./routes/api')
+const api = require('./routes/api');
 const index = require('./routes/index');
-// const users = require('./routes/users');
 
 const app = express();
 
@@ -21,24 +18,18 @@ app.set('view engine', 'ejs');
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  // The secretOrKey is the secret that our tokens will be signed with. Choose this wisely or use a private key.
   secretOrKey: 'supersecret'
-}
+};
 
-// jwt_payload is the data decrypted from the jwt token, which is part of the request (it's going to be in the header)
-// this strategy is used to find the user (see auth.js when we set payload = {id: user.id};
-const strategy = new Strategy (
-  jwtOptions, (jwt_payload, next) => {
-    console.log('payload received', jwt_payload);
-    const user = jwt_payload.id;
-    user ? next(null, user) : next(null, false); // or you could create a new account
+const strategy = new Strategy(
+  jwtOptions, (jwtPayload, next) => {
+    const user = jwtPayload.id;
+    user ? next(null, user) : next(null, false);
   }
 );
 
 passport.use(strategy);
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -47,17 +38,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/api', api);
-// app.use('/users', users);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
