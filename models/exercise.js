@@ -6,7 +6,7 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function ({Log, User}) {
-        Exercise.hasMany(Log);
+        Exercise.hasMany(Log, {as: 'logs'});
         Exercise.belongsToMany(User, {through: 'Log'});
       }
     }

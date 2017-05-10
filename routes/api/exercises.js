@@ -29,12 +29,14 @@ router.post('/', function (req, res, next) {
 // Exercises#show, URL: /api/exercises/:id, METHOD: GET
 router.get('/:id', function (req, res, next) {
   const {id} = req.params;
-  Promise.all([
-    Exercise.findById(id, {raw: true}),
-    Log.findAll({where: {ExerciseId: id}, raw: true, order: [['date', 'DESC']]})
-  ])
-    .then(([exercise, log]) =>
-      res.json({exercise: Object.assign(exercise, {log})}))
+  Exercise
+    .findById(id, {
+      include: [{
+        model: Log,
+        as: 'logs'
+      }]
+    })
+    .then(exercise => res.json({exercise}))
     .catch(err => {
       res.json({err: {name: err.name, message: err.message}});
     });
