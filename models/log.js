@@ -3,7 +3,8 @@ module.exports = function (sequelize, DataTypes) {
   var Log = sequelize.define('Log', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     UserId: DataTypes.INTEGER,
     ExerciseId: DataTypes.INTEGER,

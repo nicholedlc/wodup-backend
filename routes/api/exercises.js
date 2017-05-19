@@ -34,7 +34,10 @@ router.get('/:id', function (req, res, next) {
       include: [{
         model: Log,
         as: 'logs'
-      }]
+      }],
+      order: [
+        [{model: Log, as: 'logs'}, 'date', 'DESC']
+      ]
     })
     .then(exercise => res.json({exercise}))
     .catch(err => {
@@ -80,7 +83,7 @@ router.post('/:id/log', function (req, res, next) {
   Exercise
     .findById(id)
     .then(exercise => exercise.createLog({rep, set, weight, note, date, imageUrl}))
-    .then(log => res.json({log}))
+    .then(log => res.json({ log }))
     .catch(err => {
       res.json({err: {name: err.name, message: err.message}});
     });

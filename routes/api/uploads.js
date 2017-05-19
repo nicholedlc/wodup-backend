@@ -5,7 +5,7 @@ const path = require('path');
 
 const uploader = multer({
   dest: path.join(__dirname, '/../../public/uploads/'),
-  limits: {fileSize: 5000000, files: 1}
+  limits: {fileSize: 10000000, files: 1}
 });
 
 router.post('/', uploader.single('image'), function (req, res, next) {

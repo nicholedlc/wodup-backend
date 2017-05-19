@@ -5,7 +5,12 @@
   "scripts": {
     "start": "nodemon ./bin/www",
     "debug": "nodemon --inspect ./bin/www",
-    "test": "semistandard --verbsose | snazzy"
+    "test": "semistandard --verbsose | snazzy",
+    "db:create": "createdb --echo wodup",
+    "db:drop": "dropdb --if-exists --echo wodup",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed:all",
+    "db:setup": "yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed"
   },
   "dependencies": {
     "body-parser": "~1.16.0",

@@ -4,15 +4,16 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const passportJWT = require('passport-jwt');
-const {ExtractJwt, Strategy} = passportJWT;
+const passportJwt = require('passport-jwt');
+const jwt = require('jsonwebtoken');
+const ExtractJwt = passportJwt.ExtractJwt,
+      JwtStrategy = passportJwt.Strategy;
 
 const api = require('./routes/api');
 const index = require('./routes/index');
 
 const app = express();
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -21,9 +22,10 @@ const jwtOptions = {
   secretOrKey: 'supersecret'
 };
 
-const strategy = new Strategy(
-  jwtOptions, (jwtPayload, next) => {
-    const user = jwtPayload.id;
+const strategy = new JwtStrategy (
+  jwtOptions,
+  (jwtPayload, next) => {
+    const user = User.findById(jwtPayload.id)
     user ? next(null, user) : next(null, false);
   }
 );

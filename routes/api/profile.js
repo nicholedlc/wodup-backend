@@ -27,7 +27,6 @@ router.get('/', passport.authenticate('jwt', {session: false}), function (req, r
 router.post('/', passport.authenticate('jwt', {session: false}), function (req, res, next) {
   const {user} = req;
   const {age, weight, height, gender} = req.body;
-  console.log(user);
   User
     .findById(user)
     .then(user => user.createProfile({age: age, weight, height, gender}))
