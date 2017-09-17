@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const ExtractJwt = passportJwt.ExtractJwt,
       JwtStrategy = passportJwt.Strategy;
 
+const { User } = require('./models');
 const api = require('./routes/api');
 const index = require('./routes/index');
 
@@ -24,8 +25,12 @@ const jwtOptions = {
 
 const strategy = new JwtStrategy (
   jwtOptions,
-  (jwtPayload, next) => {
-    const user = jwtPayload.user
+  async (jwtPayload, next) => {
+    // The user passed to next as a argument will be availabe
+    // as a property of the request object for all routes that
+    // request authorization
+    const userId = jwtPayload.id;
+    const user = await User.findById(userId);
     user ? next(null, user) : next(null, false);
   }
 );

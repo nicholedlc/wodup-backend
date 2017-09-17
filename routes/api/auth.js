@@ -21,9 +21,9 @@ router.post('/login', function (req, res, next) {
       if (!user) {
         return res.status(401).json({error: 'no such user found'});
       } else if (password === user.password) {
-        const payload = { user };
+        const payload = { id: user.id };
         const token = jwt.sign(payload, jwtOptions.secretOrKey);
-        return res.json({ message: 'ok', user, token });
+        return res.json({ message: 'ok', token });
       }
       return res.status(401).json({message: 'passwords did not match'});
     })
@@ -32,13 +32,15 @@ router.post('/login', function (req, res, next) {
 
 // User#create, URL: api/auth/signup, METHOD: POST
 router.post('/signup', function (req, res, next) {
-  const {firstName, lastName, email, password} = req.body;
+  const { firstName, lastName, email, password, passwordConfirmation } = req.body;
+
   User
     .create({firstName, lastName, email, password})
     .then(user => {
-      const payload = {id: user.id};
+      const payload = { id: user.id };
+      const { firstName, lastName, password } = user;
       const token = jwt.sign(payload, jwtOptions.secretOrKey);
-      res.json({message: 'ok', user, token });
+      res.json({message: 'ok', user: { firstName, lastName, email }, token });
     })
     .catch(err => {
       res.json({err: {name: err.name, message: err.message}});

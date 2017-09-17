@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-const {User} = require('../../models/index');
+const { User } = require('../../models/index');
 
 // Profile#show URL: /api/profile, METHOD: GET
 router.get('/',
@@ -14,9 +14,17 @@ router.get('/',
         return Promise.all([user, user.getProfile({raw: true})])
       })
       .then(arr => {
-        return res.json({
-          profile: arr[1]
-        });
+        return res.json(
+          Object.assign(
+            {},
+            { profile: arr[1] },
+            {
+              firstName: arr[0].firstName,
+              lastName: arr[0].lastName,
+              email: arr[0].email
+            }
+          )
+        );
       })
       .catch(err => {
         return res.json({err: {name: err.name, message: err.message}});
