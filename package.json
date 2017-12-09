@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
     "debug": "nodemon --inspect ./bin/www",
     "test": "semistandard --verbsose | snazzy",
-    "db:create": "createdb --echo wodup",
-    "db:drop": "dropdb --if-exists --echo wodup",
+    "db:create": "createdb --echo wodup_dev",
+    "db:drop": "dropdb --if-exists --echo wodup_dev",
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
     "db:setup": "yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed"
@@ -35,8 +36,11 @@
     "serve-favicon": "~2.3.2"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0",
+    "nodemon": "^1.12.1",
     "semistandard": "^10.0.0",
     "snazzy": "^7.0.0"
+  },
+  "engines": {
+    "node": "8.9.1"
   }
 }
