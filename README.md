@@ -3,7 +3,8 @@ An IOS-focused mobile fitness app designed to track strength training metrics fo
 
 Built with an Express-based JSON API, the server communicates with a [React Native SPA client](https://github.com/nicholedlc/wodup-client-mobile) using AJAX.
 
-Currently in early development. Stay tuned...
+The app is in early development but feel free to check out the JSON API in [Heroku](https://wodup-express.herokuapp.com/api/exercises).
+
 
 ## Get Started
 1. Clone the repo
