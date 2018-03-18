@@ -6,9 +6,9 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const passportJwt = require("passport-jwt");
 const jwt = require("jsonwebtoken");
-const ExtractJwt = passportJwt.ExtractJwt,
-  JwtStrategy = passportJwt.Strategy;
 
+const { ExtractJwt, Strategy: JwtStrategy } = passportJwt;
+const { User } = require("./models");
 const api = require("./routes/api");
 const index = require("./routes/index");
 
@@ -22,8 +22,8 @@ const jwtOptions = {
   secretOrKey: "supersecret"
 };
 
-const strategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
-  const user = User.findById(jwtPayload.id);
+const strategy = new JwtStrategy(jwtOptions, async (jwtPayload, next) => {
+  const user = await User.findById(jwtPayload.id);
   user ? next(null, user) : next(null, false);
 });
 
