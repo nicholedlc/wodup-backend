@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
-  up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable('Logs', {
+  up: function(queryInterface, Sequelize) {
+    return queryInterface.createTable("Logs", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,20 +11,20 @@ module.exports = {
       UserId: {
         type: Sequelize.INTEGER,
         references: {
-           // the model property takes a value that is the *TABLE NAME* that this UserId should refer to
-          model: 'Users',
+          // the model property takes a value that is the *TABLE NAME* that this UserId should refer to
+          model: "Users",
           // the key property points the column inside the table above
-          key: 'id'
+          key: "id"
         },
-        onDelete: 'SET NULL'
+        onDelete: "SET NULL"
       },
       ExerciseId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Exercises',
-          key: 'id'
+          model: "Exercises",
+          key: "id"
         },
-        onDelete: 'CASCADE'
+        onDelete: "CASCADE"
       },
       rep: {
         type: Sequelize.INTEGER
@@ -51,7 +51,7 @@ module.exports = {
       }
     });
   },
-  down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('Logs');
+  down: function(queryInterface, Sequelize) {
+    return queryInterface.dropTable("Logs");
   }
 };
