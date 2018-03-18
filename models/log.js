@@ -1,26 +1,30 @@
-'use strict';
-module.exports = function (sequelize, DataTypes) {
-  var Log = sequelize.define('Log', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+"use strict";
+module.exports = function(sequelize, DataTypes) {
+  var Log = sequelize.define(
+    "Log",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      UserId: DataTypes.INTEGER,
+      ExerciseId: DataTypes.INTEGER,
+      rep: DataTypes.INTEGER,
+      set: DataTypes.INTEGER,
+      weight: DataTypes.FLOAT,
+      note: DataTypes.TEXT,
+      date: DataTypes.DATE,
+      imageUrl: DataTypes.STRING
     },
-    UserId: DataTypes.INTEGER,
-    ExerciseId: DataTypes.INTEGER,
-    rep: DataTypes.INTEGER,
-    set: DataTypes.INTEGER,
-    weight: DataTypes.FLOAT,
-    note: DataTypes.TEXT,
-    date: DataTypes.DATE,
-    imageUrl: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: function ({User, Exercise}) {
-        Log.belongsTo(User);
-        Log.belongsTo(Exercise);
+    {
+      classMethods: {
+        associate: function({ User, Exercise }) {
+          Log.belongsTo(User);
+          Log.belongsTo(Exercise);
+        }
       }
     }
-  });
+  );
   return Log;
 };

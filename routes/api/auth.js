@@ -1,49 +1,53 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const jwt = require('jsonwebtoken');
-const passportJWT = require('passport-jwt');
+const jwt = require("jsonwebtoken");
+const passportJWT = require("passport-jwt");
 const { ExtractJwt } = passportJWT;
 
-const { User } = require('../../models/index');
+const { User } = require("../../models/index");
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  secretOrKey: 'supersecret'
+  secretOrKey: "supersecret"
 };
 
 // URL: api/auth/login
-router.post('/login', function (req, res, next) {
+router.post("/login", function(req, res, next) {
   const { email, password } = req.body;
-  User
-    .findOne({ where: { email } })
+  User.findOne({ where: { email } })
     .then(user => {
       if (!user) {
-        return res.status(401).json({error: 'no such user found'});
+        return res.status(401).json({ error: "no such user found" });
       } else if (password === user.password) {
         const payload = { id: user.id };
         const token = jwt.sign(payload, jwtOptions.secretOrKey);
-        return res.json({ message: 'ok', token });
+        return res.json({ message: "ok", token });
       }
-      return res.status(401).json({message: 'passwords did not match'});
+      return res.status(401).json({ message: "passwords did not match" });
     })
     .catch(error => res.status(500).json({ error }));
 });
 
 // User#create, URL: api/auth/signup, METHOD: POST
-router.post('/signup', function (req, res, next) {
-  const { firstName, lastName, email, password, passwordConfirmation } = req.body;
+router.post("/signup", function(req, res, next) {
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    passwordConfirmation
+  } = req.body;
 
-  User
-    .create({firstName, lastName, email, password})
+  User.create({ firstName, lastName, email, password })
     .then(user => {
       const payload = { id: user.id };
       const { firstName, lastName, password } = user;
       const token = jwt.sign(payload, jwtOptions.secretOrKey);
-      res.json({message: 'ok', user: { firstName, lastName, email }, token });
+      res.json({ message: "ok", user: { firstName, lastName, email }, token });
     })
     .catch(err => {
-      res.json({err: {name: err.name, message: err.message}});
+      res.json({ err: { name: err.name, message: err.message } });
     });
 });
 

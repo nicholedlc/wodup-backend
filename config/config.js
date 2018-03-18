@@ -18,14 +18,14 @@
 
 const config = {
   development: {
-    database: 'wodup_dev',
-    host: '127.0.0.1',
-    dialect: 'postgres'
+    database: "wodup_dev",
+    host: "127.0.0.1",
+    dialect: "postgres"
   },
   test: {
-    database: 'wodup_test',
-    host: '127.0.0.1',
-    dialect: 'postgres'
+    database: "wodup_test",
+    host: "127.0.0.1",
+    dialect: "postgres"
   }
 };
 
@@ -37,8 +37,9 @@ if (process.env.DATABASE_URL) {
     host,
     port,
     database
-  ] = process.env.DATABASE_URL
-    .match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/);
+  ] = process.env.DATABASE_URL.match(
+    /postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/
+  );
 
   Object.assign(config, {
     production: {
@@ -47,7 +48,7 @@ if (process.env.DATABASE_URL) {
       host,
       port,
       database,
-      dialect: 'postgres'
+      dialect: "postgres"
     }
   });
 }
