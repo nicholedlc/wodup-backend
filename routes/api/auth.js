@@ -13,24 +13,24 @@ const jwtOptions = {
 };
 
 // URL: api/auth/login
-router.post("/login", function(req, res, next) {
+router.post("/login", function (req, res, next) {
   const { email, password } = req.body;
   User.findOne({ where: { email } })
     .then(user => {
       if (!user) {
-        return res.status(401).json({ error: "no such user found" });
+        res.status(401).json({ message: "no such user found" });
       } else if (password === user.password) {
         const payload = { id: user.id };
         const token = jwt.sign(payload, jwtOptions.secretOrKey);
-        return res.json({ message: "ok", token });
+        res.json({ message: "ok", token });
       }
-      return res.status(401).json({ message: "passwords did not match" });
+      res.status(401).json({ message: "passwords did not match" });
     })
     .catch(error => res.status(500).json({ error }));
 });
 
 // User#create, URL: api/auth/signup, METHOD: POST
-router.post("/signup", function(req, res, next) {
+router.post("/signup", function (req, res, next) {
   const {
     firstName,
     lastName,

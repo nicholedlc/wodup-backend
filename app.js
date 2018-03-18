@@ -6,9 +6,8 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const passportJwt = require("passport-jwt");
 const jwt = require("jsonwebtoken");
-const ExtractJwt = passportJwt.ExtractJwt,
-  JwtStrategy = passportJwt.Strategy;
 
+const { ExtractJwt, Strategy: JwtStrategy } = passportJwt;
 const { User } = require("./models");
 const api = require("./routes/api");
 const index = require("./routes/index");
@@ -24,11 +23,7 @@ const jwtOptions = {
 };
 
 const strategy = new JwtStrategy(jwtOptions, async (jwtPayload, next) => {
-  // The user passed to next as a argument will be availabe
-  // as a property of the request object for all routes that
-  // request authorization
-  const userId = jwtPayload.id;
-  const user = await User.findById(userId);
+  const user = await User.findById(jwtPayload.id);
   user ? next(null, user) : next(null, false);
 });
 
@@ -44,14 +39,14 @@ app.use("/", index);
 app.use("/api", api);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   const err = new Error("Not Found");
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
