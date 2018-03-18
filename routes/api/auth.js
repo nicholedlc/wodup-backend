@@ -13,30 +13,38 @@ const jwtOptions = {
 };
 
 // URL: api/auth/login
-router.post("/login", function(req, res, next) {
+router.post("/login", function (req, res, next) {
   const { email, password } = req.body;
   User.findOne({ where: { email } })
     .then(user => {
       if (!user) {
         res.status(401).json({ message: "no such user found" });
       } else if (password === user.password) {
-        const payload = { user };
+        const payload = { id: user.id };
         const token = jwt.sign(payload, jwtOptions.secretOrKey);
         res.json({ message: "ok", token });
       }
       res.status(401).json({ message: "passwords did not match" });
     })
-    .catch(error => console.error(error));
+    .catch(error => res.status(500).json({ error }));
 });
 
 // User#create, URL: api/auth/signup, METHOD: POST
-router.post("/signup", function(req, res, next) {
-  const { firstName, lastName, email, password } = req.body;
+router.post("/signup", function (req, res, next) {
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    passwordConfirmation
+  } = req.body;
+
   User.create({ firstName, lastName, email, password })
     .then(user => {
       const payload = { id: user.id };
+      const { firstName, lastName, password } = user;
       const token = jwt.sign(payload, jwtOptions.secretOrKey);
-      res.json({ user, message: "ok", token: token });
+      res.json({ message: "ok", user: { firstName, lastName, email }, token });
     })
     .catch(err => {
       res.json({ err: { name: err.name, message: err.message } });
