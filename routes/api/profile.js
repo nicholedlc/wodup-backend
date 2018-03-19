@@ -12,9 +12,10 @@ router.get(
       const profile = await user.getProfile({ raw: true });
 
       res.json({
-        profile: Object.assign(arr[1], {
-          firstName: arr[0].firstName,
-          lastName: arr[0].lastName
+        profile: Object.assign({}, profile, {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email
         })
       });
     } catch (err) {

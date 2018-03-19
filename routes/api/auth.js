@@ -18,11 +18,11 @@ router.post("/login", function (req, res, next) {
   User.findOne({ where: { email } })
     .then(user => {
       if (!user) {
-        res.status(401).json({ message: "no such user found" });
+        return res.status(401).json({ message: "no such user found" });
       } else if (password === user.password) {
         const payload = { id: user.id };
         const token = jwt.sign(payload, jwtOptions.secretOrKey);
-        res.json({ message: "ok", token });
+        return res.json({ message: "ok", token });
       }
       res.status(401).json({ message: "passwords did not match" });
     })
